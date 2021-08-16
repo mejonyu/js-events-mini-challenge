@@ -25,7 +25,7 @@ likes.textContent = `${traveler.likes} Likes`
 
 
 /***** Deliverable 4 *****/
-function renderAnimalSightingPost (animalObject) {
+function renderAnimalSightingPost(animalObject) {
     const li = document.createElement("li")
     li.dataset.id = animalObject.id
 
@@ -60,13 +60,49 @@ animalToRemove.remove()
 
 /***** Deliverable 1 *****/
 function toggleColor(element) {
-    if (element.style.color === "green") {
+    if (element.style.color === "red") {
         element.style.color = "black"
     } else {
-        element.style.color = "green"
+        element.style.color = "red"
     }
 }
 
+header.addEventListener("click", function (event) {
+    toggleColor(event.target)
+})
+
 /***** Deliverable 2 *****/
+const likeButton = document.querySelector('button.like-button')
+likeButton.addEventListener('click', function () {
+    traveler.likes += 1
+    likes.textContent = `${traveler.likes} Likes`
+})
 
 /***** Deliverable 3 *****/
+const form = document.querySelector('form#new-animal-sighting-form')
+
+form.addEventListener('submit', function (event) {
+    event.preventDefault()
+
+    const species = event.target.species.value
+    const link = event.target.link.value
+    const photo = event.target.photo.value
+    const description = event.target.description.value
+
+    const sightingsArray = traveler.animalSightings
+    const newId = sightingsArray[sightingsArray.length - 1].id + 1
+
+    const sightingObj = {
+        id: newId,
+        species,
+        link,
+        photo,
+        description,
+        travelerId: traveler.id
+    }
+
+    sightingsArray.push(sightingObj)
+
+    renderAnimalSightingPost(sightingObj)
+    form.reset()
+})
